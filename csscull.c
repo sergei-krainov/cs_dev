@@ -104,7 +104,8 @@ static int my_open(struct inode *i, struct file *f)
 	dev = container_of(i->i_cdev, struct cs_dev, cdev);
     f->private_data = dev;
     
-    if ( (f->f_flags & O_ACCMODE) == O_WRONLY) {
+    if (((f->f_flags & O_ACCMODE) == O_WRONLY) && 
+			(f->f_flags & O_TRUNC)) {
 		cs_trim(dev);
 	}
     
